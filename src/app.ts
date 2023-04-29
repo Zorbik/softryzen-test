@@ -13,6 +13,12 @@ import {
   authMiddleware,
   refreshMiddleware,
 } from "./middlewares/auth.middleware";
+import {
+  addNewMovieController,
+  getAllMoviesController,
+  getMovieByIdController,
+} from "./movies/movie.controllers";
+import { validationMiddleware } from "./middlewares/validation.middleware";
 
 dotenv.config();
 
@@ -30,6 +36,10 @@ app.use(authMiddleware);
 
 app.get("/user", refreshMiddleware, asyncWrapper(currentUserController));
 app.post("/logout", asyncWrapper(logOutController));
+
+app.get("/movies", asyncWrapper(getAllMoviesController));
+app.get("/movies/id/:id", asyncWrapper(getMovieByIdController));
+app.post("/movies", validationMiddleware, asyncWrapper(addNewMovieController));
 
 app.use(errorHandler);
 
