@@ -3,6 +3,6 @@ import { Types } from "mongoose";
 export interface MovieDto {
   title: string;
   director: string;
-  releaseDate: Date;
+  releaseDate: string;
   owner: Types.ObjectId;
 }

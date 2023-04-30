@@ -15,8 +15,10 @@ import {
 } from "./middlewares/auth.middleware";
 import {
   addNewMovieController,
+  deleteMovieByIdController,
   getAllMoviesController,
   getMovieByIdController,
+  updateMovieByIdController,
 } from "./movies/movie.controllers";
 import { validationMiddleware } from "./middlewares/validation.middleware";
 
@@ -40,6 +42,12 @@ app.post("/logout", asyncWrapper(logOutController));
 app.get("/movies", asyncWrapper(getAllMoviesController));
 app.get("/movies/id/:id", asyncWrapper(getMovieByIdController));
 app.post("/movies", validationMiddleware, asyncWrapper(addNewMovieController));
+app.patch(
+  "/movies/id/:id",
+  validationMiddleware,
+  asyncWrapper(updateMovieByIdController),
+);
+app.delete("/movies/id/:id", asyncWrapper(deleteMovieByIdController));
 
 app.use(errorHandler);
 

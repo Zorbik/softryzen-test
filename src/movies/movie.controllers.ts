@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { addNewMovie, getAllMovies, getMovieById } from "./movie.services";
+import {
+  addNewMovie,
+  deleteMovieById,
+  getAllMovies,
+  getMovieById,
+  updateMovieById,
+} from "./movie.services";
 
 export const getAllMoviesController = async (req: Request, res: Response) => {
   const { _id: userId } = req.body;
@@ -17,6 +23,27 @@ export const getMovieByIdController = async (req: Request, res: Response) => {
 export const addNewMovieController = async (req: Request, res: Response) => {
   const { title, director, releaseDate, _id: owner } = req.body;
   const movie = await addNewMovie(title, director, releaseDate, owner);
-  console.log("req.body:", req.body);
+
   return res.status(200).json({ movie });
+};
+
+export const updateMovieByIdController = async (
+  req: Request,
+  res: Response,
+) => {
+  const { id } = req.params;
+  const { _id, ...body } = req.body;
+  const movie = await updateMovieById(id, body);
+  return res.status(200).json({ message: "Movie update successfully", movie });
+};
+
+export const deleteMovieByIdController = async (
+  req: Request,
+  res: Response,
+) => {
+  const { id } = req.params;
+  const deletedMovie = await deleteMovieById(id);
+  return res
+    .status(200)
+    .json({ message: "Movie delete successfully", deletedMovie });
 };
