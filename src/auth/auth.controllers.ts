@@ -1,34 +1,37 @@
 import { Request, Response } from "express";
-import { createUser, currentUser, logInUser, logOut } from "./auth.services";
+import {
+  createUser,
+  currentUser,
+  deleteUser,
+  logInUser,
+  logOut,
+} from "./auth.services";
 
 export const registreUserController = async (req: Request, res: Response) => {
-  return controller(
-    createUser,
-    req.body,
-    201,
-    "User registered successfully",
-    res,
-  );
+  const response = await createUser(req.body);
+  const { __v, password, ...user } = response.toObject();
+
+  return res
+    .status(201)
+    .json({ message: "User registered successfully", user });
 };
 
 export const logInUserController = async (req: Request, res: Response) => {
-  return controller(
-    logInUser,
-    req.body,
-    200,
-    "User authorization successfully",
-    res,
-  );
+  const response = await logInUser(req.body);
+  const { __v, password, ...user } = response.toObject();
+
+  return res
+    .status(200)
+    .json({ message: "User authorization successfully", user });
 };
 
 export const currentUserController = async (req: Request, res: Response) => {
-  return controller(
-    currentUser,
-    req.body._id,
-    200,
-    "User authorization successfully",
-    res,
-  );
+  const response = await currentUser(req.body._id);
+  const { __v, password, ...user } = response.toObject();
+
+  return res
+    .status(200)
+    .json({ message: "User authorization successfully", user });
 };
 
 export const logOutController = async (req: Request, res: Response) => {
@@ -36,15 +39,8 @@ export const logOutController = async (req: Request, res: Response) => {
   return res.status(200).json({ message: "Logout successfully" });
 };
 
-async function controller(
-  func: Function,
-  query: any,
-  status: number,
-  message: string,
-  res: Response,
-) {
-  const response = await func(query);
-  const { __v, password, ...user } = response.toObject();
-
-  return res.status(status).json({ message: message, user });
-}
+export const deleteUserController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await deleteUser(id);
+  return res.status(200).json({ message: "User deleted successfully" });
+};

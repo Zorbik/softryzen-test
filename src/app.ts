@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import {
   currentUserController,
+  deleteUserController,
   logInUserController,
   logOutController,
   registreUserController,
@@ -38,6 +39,7 @@ app.use(authMiddleware);
 
 app.get("/user", refreshMiddleware, asyncWrapper(currentUserController));
 app.post("/logout", asyncWrapper(logOutController));
+app.delete("/user/id/:id", asyncWrapper(deleteUserController));
 
 app.get("/movies", asyncWrapper(getAllMoviesController));
 app.get("/movies/id/:id", asyncWrapper(getMovieByIdController));

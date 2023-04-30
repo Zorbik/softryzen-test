@@ -8,7 +8,7 @@ export const getAllMovies = async (
   page: number,
   limit: number,
 ) => {
-  return await Movie.find(owner, { __v: 0, owner: 0 })
+  return await Movie.find({ owner }, { __v: 0, owner: 0 })
     .limit(limit)
     .skip((page - 1) * limit);
 };

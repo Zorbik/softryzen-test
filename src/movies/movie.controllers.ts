@@ -45,5 +45,5 @@ export const deleteMovieByIdController = async (
   const deletedMovie = await deleteMovieById(id);
   return res
     .status(200)
-    .json({ message: "Movie delete successfully", deletedMovie });
+    .json({ message: "Movie deleted successfully", deletedMovie });
 };

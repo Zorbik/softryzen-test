@@ -66,6 +66,10 @@ export const logOut = async (id: Types.ObjectId) => {
   await user.save();
 };
 
+export const deleteUser = async (id: string) => {
+  return await User.findByIdAndDelete(id);
+};
+
 function addTokens(id: Types.ObjectId) {
   const accessToken = jwt.sign({ id }, process.env.JWT_ACCESS_SECRET || "", {
     expiresIn: "1h",
